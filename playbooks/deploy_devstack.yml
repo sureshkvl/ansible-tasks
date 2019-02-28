@@ -1,0 +1,30 @@
+#ssh -i rj45-lab2.private cloude@84.39.42.152
+---
+- name: "Install devstack in the VM"
+  hosts: vm1
+  gather_facts: true
+
+  vars:
+    devstackurl: https://github.com/openstack-dev/devstack
+    branch: stable/queens
+
+  tasks:
+  - name: "Run SSH Ping Connectivity Check"
+    ping:
+    register: task_result
+    until: task_result is succeeded
+    retries: 5
+    delay: 1
+
+  - name: create stack user 
+    script: usercreation.sh
+    become: true
+
+  - name: clone devstack repo
+    shell: |
+      cd
+      git clone {{devstackurl}}
+      cd devstack
+      git checkout {{branch}}   
+    become: yes 
+    become_user: stack
