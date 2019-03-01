@@ -1,6 +1,12 @@
+# Introduction:
+
 This playbook is used to install the devstack in the remote machine(preferably ubunutu 16.04 - no other linux flavors supported)
 
 The default openstack version is stable/queens
+
+This playbook builds the devstack in the tmux session of the remote machine. Once it started build the stack the playbook ends. roughly 15-30 mins will take to complete the installation.
+
+User can ssh to the vm, and "tmux attach" to see the build process as a "stack" user.
 
 
 # How to run:
@@ -14,17 +20,27 @@ The default openstack version is stable/queens
 
 2. Run the playbook
 
-ansible-playbook -i hosts deploy_devstack.yml -e "branch=stable/queens hostip=10.0.1.4" -vv
+
+```
+	ansible-playbook -i hosts deploy_devstack.yml -e "branch=stable/queens hostip=10.0.1.4" -vv
+```
 
 The default values are ,
 
 branch  is stable/queens,
+
 you can change as below,
+
  	branch=stable/queens 
+
  	branch=stable/rocky
+
 	branch=stable/pike
+
 	branch=stable/ocata
+
 
 hostip is 10.0.1.4
 
 hostip must be changed with the correct private IP of the remote machine.
+
