@@ -1,1 +1,1 @@
-vm1 ansible_host=84.39.42.152 ansible_user=cloud ansible_ssh_private_key_file=/home/suresh/rj45-lab2.private ansible_ssh_common_args='-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+vm1 ansible_host=84.39.42.24 ansible_user=cloud ansible_ssh_private_key_file=/home/suresh/rj45-lab2.private ansible_ssh_common_args='-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'

@@ -1,4 +1,4 @@
-#ssh -i rj45-lab2.private cloude@84.39.42.152
+#ssh -i rj45-lab2.private cloud@84.39.42.152
 ---
 - name: "Install devstack in the VM"
   hosts: vm1
@@ -7,6 +7,8 @@
   vars:
     devstackurl: https://github.com/openstack-dev/devstack
     branch: stable/queens
+    homedir: /opt/stack
+    hostip: 10.0.1.3
 
   tasks:
   - name: "Run SSH Ping Connectivity Check"
@@ -20,11 +22,32 @@
     script: usercreation.sh
     become: true
 
+  - name: apt update cache
+    apt:
+      update_cache: true
+    become: true
+
   - name: clone devstack repo
     shell: |
-      cd
+      cd {{homedir}}
       git clone {{devstackurl}}
       cd devstack
       git checkout {{branch}}   
+    become: yes 
+    become_user: stack
+
+  - name: copy the local conf file
+    template:
+      src: local.conf.j2
+      dest: "{{homedir}}/devstack/local.conf"
+    become: yes
+    become_user: stack
+
+
+  - name: start the tumx session and build the stack
+    shell: |
+      cd {{homedir}}/devstack
+      tmux new -d -s setup
+      tmux new-window -t setup ./stack.sh
     become: yes 
     become_user: stack
