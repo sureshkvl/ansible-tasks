@@ -6,9 +6,10 @@
 
   vars:
     devstackurl: https://github.com/openstack-dev/devstack
-    branch: stable/queens
+    os_branch: stable/ocata
     homedir: /opt/stack
-    hostip: 10.0.1.3
+    hostip: 10.0.1.7
+    contrail_branch: R4.1
 
   tasks:
   - name: "Run SSH Ping Connectivity Check"
@@ -27,7 +28,7 @@
       cd {{homedir}}
       git clone {{devstackurl}}
       cd devstack
-      git checkout {{branch}}   
+      git checkout {{os_branch}}   
     become: yes 
     become_user: stack
 

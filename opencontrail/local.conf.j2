@@ -8,18 +8,11 @@ RABBIT_PASSWORD=rabbit123
 SERVICE_PASSWORD=$ADMIN_PASSWORD
 LOGFILE=$DEST/logs/stack.sh.log
 LOGDAYS=2
-
-#Add the ubuntu 14.04 image in trusty
-IMAGE_URLS+=",https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img"
-
-#disable nova net
 disable_service n-net
-
-#disable cinder services
 disable_service c-api c-sch c-vol
-
-#enable neutron net services
 enable_service q-svc q-agt q-dhcp q-l3 q-meta
 
-# enable heat services
-enable_plugin heat https://git.openstack.org/openstack/heat {{branch}}
+#enable contrail plugin
+enable_plugin contrail https://github.com/zioc/contrail-devstack-plugin.git
+CONTRAIL_REPO=https://github.com/Juniper/contrail-vnc.git
+CONTRAIL_BRANCH={{contrail_branch}}

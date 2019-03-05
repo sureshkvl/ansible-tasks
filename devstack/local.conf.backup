@@ -1,0 +1,36 @@
+[[local|localrc]]
+RECLONE=True
+HOST_IP={{hostip}}
+SERVICE_TOKEN=mytoken123
+ADMIN_PASSWORD=openstack123
+MYSQL_PASSWORD=mysql123
+RABBIT_PASSWORD=rabbit123
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+LOGFILE=$DEST/logs/stack.sh.log
+LOGDAYS=2
+
+IMAGE_URLS+="http://foo.bar.com/image2.qcow"
+
+
+#disable nova net
+disable_service n-net
+
+#disable cinder services
+disable_service c-api c-sch c-vol
+
+#enable neutron net services
+enable_service q-svc q-agt q-dhcp q-l3 q-meta
+
+# enable heat services
+enable_plugin heat https://git.openstack.org/openstack/heat {{branch}}
+
+
+#NEUTRON_LBAAS_SERVICE_PROVIDERV2="LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default"
+#enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git stable/queens
+#enable_service q-lbaasv2
+#[[post-config|$NEUTRON_CONF]]
+#[DEFAULT]
+#service_plugins+=,neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2
+#[[post-config|NEUTRON_LBAAS_CONF]]
+#[service_providers]
+#service_provider=LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
