@@ -1,0 +1,26 @@
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    model_no:  "MODEL1"
+    serial_no: "SERIAL1"
+    dataset1: ['MODEL1','AA','SERIAL1', 'BB'] 
+    dataset2: ['MODEL2','AA','SERIAL2', 'BB'] 
+
+  tasks:  
+
+  - set_fact: result1=passed
+    when:  model_no in dataset1
+
+  - debug:
+      msg: "model_no present in dataset1"
+    when: result1 is defined
+
+  - set_fact: result2=passed
+    ignore_errors: true
+    when:  serial_no in dataset2
+
+  - debug:
+      msg: "serial_no not present in dataset2"
+    when: result2 is not defined
+
